@@ -1,34 +1,33 @@
 import React from 'react'
-import { nanoid } from 'nanoid'
 import { ReactComponent as Edit} from '../edit.svg'
 import { ReactComponent as Delete} from '../delete.svg'
 import styled from 'styled-components'
 import { Black , Green , Red , } from '../style/GlobalStyle'
+import { useStore } from '../store'
 
 export const Note = () => {
-    const date = new Date()
-    const note ={
-        title:'Note',
-        date:date.toLocaleDateString(),
-        description:'Lorem ipsum dolor sit',
-        isChange:false,
-        id: nanoid()
-    }
+    const {notes} = useStore()
+
   return (
-    <NoteStyle className="note">
-        <div className="note-head">
-            <h2 className='note-title'>{note.title}</h2>
-            <span className="note-date">{note.date}</span>
-        </div>
-        <div className="note-content">{note.description}</div>
-        <div className="note-footer">
-            <button> <Edit/> </button>
-            <button> <Delete/> </button>
-        </div>
-    </NoteStyle>
+    <>
+        {notes.map((note,index) => {
+            return(
+                <NoteStyle key={index} className="note">
+                <div className="note-head">
+                    <h2 className='note-title'>{note.title}</h2>
+                    <span className="note-date">{note.date}</span>
+                </div>
+                <div className="note-content">{note.description}</div>
+                <div className="note-footer">
+                    <button> <Edit/> </button>
+                    <button> <Delete/> </button>
+                </div>
+            </NoteStyle>
+            )
+        })}
+        </>
   )
 }
-
 
 const NoteStyle = styled.div`
     width: 350px;
